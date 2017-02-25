@@ -1,0 +1,6 @@
+spring:
+  mvc:
+    media-types:
+      json: application/json
+      yaml: application/yaml
+      csv: text/csv
