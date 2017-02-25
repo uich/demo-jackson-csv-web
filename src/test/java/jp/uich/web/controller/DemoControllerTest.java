@@ -27,7 +27,7 @@ public class DemoControllerTest {
   @Test
   @SneakyThrows
   public void test_拡張子無し_JSONが返ること() {
-    this.mockMvc.perform(get("/item"))
+    this.mockMvc.perform(get("/items"))
       .andDo(print())
       .andExpect(header().string("content-type", startsWith("application/json")))
       .andExpect(status().is2xxSuccessful());
@@ -36,7 +36,7 @@ public class DemoControllerTest {
   @Test
   @SneakyThrows
   public void test_拡張子json_JSONが返ること() {
-    this.mockMvc.perform(get("/item.json"))
+    this.mockMvc.perform(get("/items.json"))
       .andDo(print())
       .andExpect(header().string("content-type", startsWith("application/json")))
       .andExpect(status().is2xxSuccessful());
@@ -45,7 +45,7 @@ public class DemoControllerTest {
   @Test
   @SneakyThrows
   public void test_拡張子csv_CSVが返ること() {
-    this.mockMvc.perform(get("/item.csv"))
+    this.mockMvc.perform(get("/items.csv"))
       .andDo(print())
       .andExpect(header().string("content-type", startsWith("text/csv")))
       .andExpect(status().is2xxSuccessful());
