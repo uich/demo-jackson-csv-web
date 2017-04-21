@@ -63,23 +63,23 @@ public class MappingJackson2CsvHttpMessageConverter extends AbstractJackson2Http
       return null;
     }
     JavaType javaType = this.getJavaType(type, null);
-    Class<?> rowClass;
+    Class<?> rawClass;
 
     if (javaType.isCollectionLikeType()) {
-      rowClass = Optional.ofNullable(javaType.getContentType())
+      rawClass = Optional.ofNullable(javaType.getContentType())
         .map(JavaType::getRawClass)
         .orElse(null);
 
-      if (rowClass == null) {
+      if (rawClass == null) {
         return null;
       }
     } else {
-      rowClass = javaType.getRawClass();
+      rawClass = javaType.getRawClass();
     }
 
-    Class<?> classForSchema = this.getObjectMapper().findMixInClassFor(rowClass);
+    Class<?> classForSchema = this.getObjectMapper().findMixInClassFor(rawClass);
     if (classForSchema == null) {
-      return rowClass;
+      return rawClass;
     }
 
     return classForSchema;
