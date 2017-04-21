@@ -30,6 +30,7 @@ public class ResponseHeadersAdvice implements ResponseBodyAdvice<Object> {
     Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request,
     ServerHttpResponse response) {
     if (((ServletServerHttpRequest) request).getServletRequest().getParameterMap().containsKey("download")) {
+      // For IE
       response.getHeaders().add("Content-Transfer-Encoding", "binary");
       response.getHeaders().add("Content-Disposition", "attachment");
 
