@@ -1,6 +1,10 @@
 spring:
   mvc:
-    media-types:
-      json: application/json
-      yaml: application/yaml
-      csv: text/csv
+    contentnegotiation:
+      media-types:
+        json: application/json
+        yaml: application/yaml
+        csv: text/csv
+      favor-path-extension: true
+    pathmatch:
+      use-registered-suffix-pattern: true
