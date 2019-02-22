@@ -24,15 +24,15 @@ public class FlatSerializer extends JsonSerializer<Object> {
   @Override
   public void serialize(Object value, JsonGenerator gen, SerializerProvider serializers)
     throws IOException, JsonProcessingException {
-    BeanWrapper targetWrapper = this.wrap(value);
-    BeanWrapper mixinWrapper = this.wrap(BeanUtils.instantiateClass(this.flatType));
+    var targetWrapper = this.wrap(value);
+    var mixinWrapper = this.wrap(BeanUtils.instantiateClass(this.flatType));
 
     ReflectionUtils.doWithFields(this.flatType, field -> {
       String targetPath = this.targetPath(field);
-      if (targetWrapper.isReadableProperty(targetPath) == false) {
+      if (!targetWrapper.isReadableProperty(targetPath)) {
         return;
       }
-      if (mixinWrapper.isWritableProperty(field.getName()) == false) {
+      if (!mixinWrapper.isWritableProperty(field.getName())) {
         return;
       }
       mixinWrapper.setPropertyValue(field.getName(), targetWrapper.getPropertyValue(targetPath));
@@ -41,13 +41,13 @@ public class FlatSerializer extends JsonSerializer<Object> {
   }
 
   private BeanWrapper wrap(Object obj) {
-    BeanWrapper wrapper = PropertyAccessorFactory.forBeanPropertyAccess(obj);
+    var wrapper = PropertyAccessorFactory.forBeanPropertyAccess(obj);
     wrapper.setAutoGrowNestedPaths(true);
     return wrapper;
   }
 
   private String targetPath(Field field) {
-    JsonMixinProperty property = field.getAnnotation(JsonMixinProperty.class);
+    var property = field.getAnnotation(JsonMixinProperty.class);
     if (property == null) {
       return field.getName();
     }

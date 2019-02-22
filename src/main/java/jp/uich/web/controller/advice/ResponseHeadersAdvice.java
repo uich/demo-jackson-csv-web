@@ -9,6 +9,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.http.server.ServletServerHttpRequest;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
@@ -31,7 +32,7 @@ public class ResponseHeadersAdvice implements ResponseBodyAdvice<Object> {
     Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request,
     ServerHttpResponse response) {
     if (((ServletServerHttpRequest) request).getServletRequest().getParameterMap().containsKey("download")) {
-      String fileName = Paths.get(request.getURI().getRawPath()).getFileName().toString();
+      String fileName = StringUtils.getFilename(request.getURI().getRawPath());
       // For IE
       response.getHeaders().add("Content-Transfer-Encoding", "binary");
       response.getHeaders().add("Content-Disposition", "attachment; filename=" + fileName);
